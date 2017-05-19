@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/image">
+        <file alias="bdragon">source/dragon_big.png</file>
+        <file alias="mdragon">source/dragon_mid.png</file>
+        <file alias="sdragon">source/dragon_small.png</file>
+        <file alias="openfile">source/open.png</file>
+    </qresource>
+</RCC>
