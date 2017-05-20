@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
     LoginDialog l(0, viewer);
     l.setWindowTitle("MyPDFSYS");
     l.setWindowIcon(QIcon(":/image/bdragon"));
-    //qDebug() << myHash::getHash(m);
     if(l.exec() == QDialog::Accepted)
     {
         viewer->show();

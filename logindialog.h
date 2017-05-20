@@ -24,9 +24,9 @@ signals:
 
 private slots:
     void on_loginBtn_clicked();
-    void on_forgetBtn_clicked();
     void on_registBtn_clicked();
     void on_guestBtn_clicked();
+    void on_resetBtn_clicked();
 
 private:
     Ui::LoginDialog *ui;

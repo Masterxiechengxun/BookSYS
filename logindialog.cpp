@@ -6,7 +6,14 @@ LoginDialog::LoginDialog(QWidget *parent ,MainWindow * slot) :
     ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
+    ui->label_4->setStyleSheet("background-color:rgb(41,175,212)");
     ui->usrLineEdit->setFocus();
+    ui->registBtn->setFlat(true);
+    ui->guestBtn->setFlat(true);
+    ui->usrLineEdit->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px");
+    ui->pswLineEdit->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px");
+    ui->loginBtn->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;background-color:rgb(41,175,212)");
+    ui->resetBtn->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;background-color:rgb(41,175,212)");
     connect(this, SIGNAL(sendUsrINFO(QString,QString)), slot, SLOT(slotGetUserINFO(QString,QString)));
 }
 
@@ -22,7 +29,6 @@ void LoginDialog::on_loginBtn_clicked()
     password = ui->pswLineEdit->text().trimmed();
     connService *conn = connService::getService();
     QString info = QString("login %1 %2").arg(name).arg(password);
-    //qDebug() << conn->isConnected();
     if(conn->isConnected())
     {
         conn->dataWrite(info);
@@ -45,11 +51,6 @@ void LoginDialog::on_loginBtn_clicked()
     }
 }
 
-void LoginDialog::on_forgetBtn_clicked()
-{
-
-}
-
 void LoginDialog::on_registBtn_clicked()
 {
     connService *conn = connService::getService();
@@ -69,4 +70,11 @@ void LoginDialog::on_guestBtn_clicked()
     QDialog::accept();
     emit sendUsrINFO("Guest", "");
     this->close();
+}
+
+void LoginDialog::on_resetBtn_clicked()
+{
+    ui->usrLineEdit->clear();
+    ui->pswLineEdit->clear();
+    ui->usrLineEdit->setFocus();
 }
