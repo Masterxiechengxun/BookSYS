@@ -29,8 +29,6 @@ void LoginDialog::on_loginBtn_clicked()
     password = ui->pswLineEdit->text().trimmed();
     connService *conn = connService::getService();
     QString info = QString("login %1 %2").arg(name).arg(password);
-    if(conn->isConnected())
-    {
         conn->dataWrite(info);
         QByteArray result = conn->getBuf();
         if(static_cast<QString>(result) == "true")
@@ -48,20 +46,16 @@ void LoginDialog::on_loginBtn_clicked()
         ui->usrLineEdit->clear();
         ui->pswLineEdit->clear();
         ui->usrLineEdit->setFocus();
-    }
 }
 
 void LoginDialog::on_registBtn_clicked()
 {
     connService *conn = connService::getService();
-    if(conn->isConnected())
-    {
         RegisterDialog r(this);
         if(r.exec() == QDialog::Accepted)
         {
             ui->usrLineEdit->setFocus();
         }
-    }
 }
 
 void LoginDialog::on_guestBtn_clicked()

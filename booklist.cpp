@@ -10,11 +10,9 @@ BookList::BookList(QWidget *parent) :
     list.removeLast();
     list.sort();
     model = new QStandardItemModel(list.size(), 1);
-    //model->setHeaderData(0, Qt::Horizontal, "books on the server");
     for(int row = 0; row < list.size(); row++)
         model->setItem(row, new QStandardItem(list.at(row)));
     this->setModel(model);
-    //this->expandAll();
     this->show();
 }
 
@@ -22,6 +20,11 @@ BookList::~BookList()
 {
     if(model)
         delete model;
+}
+
+void BookList::setPWD(QString p)
+{
+    pwd = p;
 }
 
 void BookList::mouseDoubleClickEvent(QMouseEvent *e)
@@ -32,17 +35,12 @@ void BookList::mouseDoubleClickEvent(QMouseEvent *e)
         this->setEnabled(false);
         QModelIndex index = this->currentIndex();
         bookTitle = index.data().toString();
+        if(bookTitle == "")
+            return;
         conn = connService::getService();
-        QString pathName = "C:\\pdfsys\\localFiles\\" + bookTitle;
-        QFile file(pathName);
-        if(!file.exists())
-        {
-            conn->dataWrite(tr("read #%1").arg(bookTitle));
-        }
-        else
-        {
-            emit onSelectBook(pathName);
-        }
-
+        //QString pathName = "C:\\pdfsys\\localFiles\\" + bookTitle;
+        //QFile file(pathName);
+        conn->setPWD(pwd);
+        conn->dataWrite(tr("read #%1#%2").arg(bookTitle).arg(pwd));
     }
 }

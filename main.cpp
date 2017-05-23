@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     const QStringList args = QCoreApplication::arguments();
-    connService::getService();
+    //connService::getService();
     MainWindow *viewer = new MainWindow();
     LoginDialog l(0, viewer);
     l.setWindowTitle("MyPDFSYS");

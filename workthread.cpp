@@ -21,6 +21,7 @@ void workThread::cryptoFile()
     QDir *workDir = new QDir(cryptoFileName + "EncrypteBooks");
     if(!workDir->exists())
         workDir->mkdir(cryptoFileName + "EncrypteBooks");
+
     cryptoFileName = cryptoFileName + "EncrypteBooks\\" + curFileName;
     QFile *ofile = new QFile(cryptoFileName);
     if(ofile->exists())
@@ -29,5 +30,4 @@ void workThread::cryptoFile()
     AES aes(Bits128, aesKey);
     aes.FileInvCipher(ifile, ofile);
     ifile->remove();
-    qDebug() << "解密结束。";
 }

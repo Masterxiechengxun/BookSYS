@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QFile>
 #include <QDir>
+#include <QCloseEvent>
 
 #include "booklist.h"
 #include "connservice.h"
@@ -57,6 +58,7 @@ private:
     int page() const;
     void wheelEvent(QWheelEvent *e);
     void startThread(QString file, QString pwd);
+    void closeEvent(QCloseEvent *event);
 
     int m_currentPage;
 
@@ -76,6 +78,7 @@ private:
     QProgressBar *progressBar;
     QLabel *statusInfo;
     workThread *myThread;
+    QString workDir;
 };
 
 #endif // MAINWINDOW_H

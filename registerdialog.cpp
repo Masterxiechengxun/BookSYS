@@ -45,8 +45,6 @@ void RegisterDialog::on_pushBtn_clicked()
         }
         connService *conn = connService::getService();
         QString info = QString("register %1 %2 %3 %4").arg(name).arg(password).arg(mail).arg(phone);
-        if(conn->isConnected())
-        {
             conn->dataWrite(info);
             QByteArray result;
             result = conn->getBuf();
@@ -57,6 +55,5 @@ void RegisterDialog::on_pushBtn_clicked()
             } else {
                 QMessageBox::about(this, tr("提醒"), tr("账户注册失败!"));
             }
-        }
     }
 }

@@ -11,6 +11,7 @@
 #include <QFont>
 #include <QFile>
 #include <QTime>
+#include <QString>
 
 #include "connservice.h"
 
@@ -26,6 +27,7 @@ public:
 
     }
     void mouseDoubleClickEvent(QMouseEvent *event);
+    void setPWD(QString p);
 
 signals:
     void onReceiveBook();
@@ -37,6 +39,8 @@ private:
     connService *conn;
     BookList(QWidget *parent = 0);
     ~BookList();
+
+    QString pwd;
 };
 
 #endif // BOOKLIST_H

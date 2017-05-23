@@ -20,7 +20,6 @@ protected:
     virtual void run() Q_DECL_OVERRIDE{
         cryptoFile();
         emit onCryptoFinish(fileName);
-        qDebug() << "解密结束信号发出。";
     }
 
 signals:

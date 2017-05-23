@@ -23,6 +23,7 @@
 #include <QStatusBar>
 #include <QHBoxLayout>
 #include <QFile>
+#include <QDateTime>
 
 
 MainWindow::MainWindow():QMainWindow(), m_currentPage(0), m_doc(0)
@@ -143,22 +144,24 @@ MainWindow::MainWindow():QMainWindow(), m_currentPage(0), m_doc(0)
     m_settingsTextAAAct->setChecked(true);
     m_settingsGfxAAAct->setChecked(true);
 
-    statusBar()->setFixedHeight(18);
-    statusBar()->setMinimumWidth(this->width());
-    statusBar()->setStyleSheet(QString("QStatusBar::item{border: 0px}"));
-    statusInfo = new QLabel;
+    statusInfo = new QLabel();
     statusInfo->setFixedHeight(18);
-    progressBar = new QProgressBar(this);
-    progressBar->setFixedHeight(15);
-    progressBar->setMinimumWidth(this->width());
-    progressBar->setAlignment(Qt::AlignLeft);
-    progressBar->setRange(0, 0);
-    progressBar->setValue(0);
-    progressBar->setTextVisible(false);
-    statusBar()->addWidget(progressBar);
+//    progressBar = new QProgressBar(sbar);
+//    progressBar->setFixedHeight(15);
+//    progressBar->setMinimumWidth(this->width());
+//    progressBar->setAlignment(Qt::AlignLeft);
+//    progressBar->setRange(0, 0);
+//    progressBar->setValue(0);
+//    progressBar->setTextVisible(false);
+
+    //去除任务栏上控件的边框
+    statusBar()->setStyleSheet(QString("QStatusBar::item{border: 0px}"));
     statusBar()->addWidget(statusInfo);
+//    statusBar()->addWidget(progressBar);
+
     statusInfo->hide();
-    progressBar->hide();
+//    progressBar->hide();
+    workDir = "";
 }
 
 MainWindow::~MainWindow()
@@ -349,6 +352,13 @@ void MainWindow::slotGetUserINFO(QString name, QString psw)
         list->setEnabled(false);
         statusBar()->hide();
     }
+    else
+    {
+        QDateTime time = QDateTime::currentDateTime();
+        QString str = time.toString("yyyy-MM-dd");
+        statusBar()->addPermanentWidget(new QLabel(tr("user: %1 | %2").arg(usr_name).arg(str)));
+    }
+    list->setPWD(usr_psw);
 }
 
 void MainWindow::slotSelectBook(QString fileName)
@@ -370,19 +380,33 @@ void MainWindow::slotReceiveBook()
 {
     statusInfo->setText("Receive......");
     statusInfo->show();
-    progressBar->show();
+//    progressBar->show();
 }
 
 void MainWindow::slotCryptoFinish(QString fileName)
 {
-    qDebug() << "解密结束信号结束到。";
     QString curFileName = fileName.right(fileName.size() - fileName.lastIndexOf('\\') - 1);
     QString cryptoFileName = fileName.left(fileName.lastIndexOf('\\') + 1);
+    workDir = cryptoFileName + "EncrypteBooks";
     cryptoFileName = cryptoFileName + "EncrypteBooks\\" + curFileName;
     closeDocument();
     statusInfo->hide();
-    progressBar->hide();
+//    progressBar->hide();
     loadDocument(cryptoFileName);
     //让目录区域再次接受鼠标点击事件
     list->setEnabled(true);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    closeDocument();
+    if(workDir != "")
+    {
+        QDir clearDir(workDir);
+        clearDir.setFilter(QDir::Files);
+        int fileNum = clearDir.count();
+        for(int i = 0; i < fileNum; i++)
+            clearDir.remove(clearDir[i]);
+    }
+    event->accept();
 }
