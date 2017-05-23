@@ -76,3 +76,8 @@ RESOURCES += \
 FORMS += \
     logindialog.ui \
     registerdialog.ui
+
+DISTFILES += \
+    appicon.rc
+
+RC_FILE = appicon.rc
